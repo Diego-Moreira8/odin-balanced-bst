@@ -22,8 +22,8 @@ class Tree {
       // Returns a node with the data empty nodes
       return new Node(array[0]);
     } else if (array.length === 2) {
-      // Returns a node with the data, and a node on the left
-      return new Node(array[0], this.buildTree(array.slice(1)));
+      // Returns a node with the data, and a node on the right
+      return new Node(array[0], null, this.buildTree(array.slice(1)));
     } else {
       // Finds the INDEX of the middle element
       const midIndex = Math.floor(array.length / 2);
@@ -92,9 +92,71 @@ class Tree {
       }
     }
   }
+
+  delete(data) {
+    let parentNode = this.root;
+    let wantedNode;
+
+    // Searches the parent and the node of the passed data
+    while (wantedNode === undefined) {
+      if (data < parentNode.data) {
+        // If the data is lesser than the data on the parent...
+        if (parentNode.left !== null && parentNode.left.data === data) {
+          // If the parent has the left child with the wanted value
+          wantedNode = parentNode.left;
+        } else if (
+          parentNode.right !== null &&
+          parentNode.right.data === data
+        ) {
+          // If the parent has the right child with the wanted value
+          wantedNode = parentNode.right;
+        } else {
+          /* If the parent of the wanted node isn't founded, 
+          goes to the left node */
+          parentNode = parentNode.left;
+        }
+      } else {
+        // If the data is greater than the data on the parent...
+        /* Does the same as the condition above but in the end, goes to the
+        right node if doesn't find the parent with the wanted node */
+        if (parentNode.left !== null && parentNode.left.data === data) {
+          wantedNode = parentNode.left;
+        } else if (
+          parentNode.right !== null &&
+          parentNode.right.data === data
+        ) {
+          wantedNode = parentNode.right;
+        } else {
+          parentNode = parentNode.right;
+        }
+      }
+    }
+
+    if (wantedNode.left === null && wantedNode.right === null) {
+      // If the wanted node have no leafs
+      if (parentNode.left !== null && parentNode.left.data === data) {
+        parentNode.left = null;
+      } else {
+        parentNode.right = null;
+      }
+    } else if (parentNode.left === null || parentNode.right === null) {
+      // If the wanted node have one leaf
+      return;
+    } else {
+      // If the wanted node have two leafs
+      return;
+    }
+  }
 }
 
 // ################################### Tests ###################################
 const sortedArray = mergeSort([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 0, 872]);
 const tree = new Tree(sortedArray);
+tree.prettyPrint();
+
+tree.delete(872); // No leafs
+//tree.delete(67); // One leaf
+//tree.delete(4); // Two leafs
+
+console.log("#################################################");
 tree.prettyPrint();
