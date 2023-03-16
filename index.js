@@ -16,8 +16,10 @@ class Tree {
 
   buildTree(array) {
     if (array.length === 1) {
+      // Returns a node with the data empty nodes
       return new Node(array[0]);
     } else if (array.length === 2) {
+      // Returns a node with the data, and a node on the left
       return new Node(array[0], this.buildTree(array.slice(1)));
     } else {
       // Finds the INDEX of the middle element
@@ -27,7 +29,8 @@ class Tree {
       const leftArray = array.slice(0, midIndex);
       const rightArray = array.slice(midIndex + 1);
 
-      // Recursively creates new nodes
+      /* Recursively creates new nodes with the data being the middle element, 
+      and the nodes being created from the halves of the array */
       const root = new Node(
         array[midIndex],
         this.buildTree(leftArray),
@@ -40,6 +43,8 @@ class Tree {
   }
 
   prettyPrint(node = this.root, prefix = "", isLeft = true) {
+    /* Prints the tree in a structured format. 
+    Made by the awesome people from TheOdinProject.com */
     if (node.right !== null) {
       this.prettyPrint(
         node.right,
@@ -56,7 +61,7 @@ class Tree {
 
 // ################################### Tests ###################################
 const sortedArray = mergeSort([
-  1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324,
+  1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324, 12312, 0, 872,
 ]);
 const tree = new Tree(sortedArray);
 console.log(tree.prettyPrint());
