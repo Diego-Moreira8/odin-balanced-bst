@@ -133,17 +133,21 @@ class Tree {
     }
 
     if (wantedNode.left === null && wantedNode.right === null) {
-      // If the wanted node have no leafs
+      // If the wanted node have no leaves
       if (parentNode.left !== null && parentNode.left.data === data) {
         parentNode.left = null;
       } else {
         parentNode.right = null;
       }
-    } else if (parentNode.left === null || parentNode.right === null) {
+    } else if (wantedNode.left === null || wantedNode.right === null) {
       // If the wanted node have one leaf
-      return;
+      if (wantedNode.left !== null) {
+        parentNode.left = wantedNode.left;
+      } else {
+        parentNode.right = wantedNode.right;
+      }
     } else {
-      // If the wanted node have two leafs
+      // If the wanted node have two leaves
       return;
     }
   }
@@ -154,8 +158,8 @@ const sortedArray = mergeSort([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 0, 872]);
 const tree = new Tree(sortedArray);
 tree.prettyPrint();
 
-tree.delete(872); // No leafs
-//tree.delete(67); // One leaf
+//tree.delete(872); // No leafs
+tree.delete(67); // One leaf
 //tree.delete(4); // Two leafs
 
 console.log("#################################################");
