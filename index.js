@@ -15,6 +15,9 @@ class Tree {
   }
 
   buildTree(array) {
+    /* Takes an array and turns it into a balanced binary tree full of Node 
+    objects appropriately placed and returns the level-0 root node. */
+
     if (array.length === 1) {
       // Returns a node with the data empty nodes
       return new Node(array[0]);
@@ -57,11 +60,41 @@ class Tree {
       this.prettyPrint(node.left, `${prefix}${isLeft ? "    " : "│   "}`, true);
     }
   }
+
+  insert(data) {
+    // Searches a empty leaf to insert the data
+
+    let currentNode = this.root;
+    let insert = false;
+
+    // While the insertion doesn't happen...
+    while (!insert) {
+      // If the passed data is lesser than the data on the node...
+      if (data < currentNode.data) {
+        // ...it verifies if the left leaf is empty
+        if (currentNode.left === null) {
+          // If it's empty, insert a new node with the passed data and empty nodes
+          currentNode.left = new Node(data);
+          insert = true;
+        } else {
+          // If isn't empty, "currentNode" changes to the left node
+          currentNode = currentNode.left;
+        }
+      } else {
+        /* If the passed data is greater or equal to the data on the node, 
+        do the same as the condition above, but directed to the right node */
+        if (currentNode.right === null) {
+          currentNode.right = new Node(data);
+          insert = true;
+        } else {
+          currentNode = currentNode.right;
+        }
+      }
+    }
+  }
 }
 
 // ################################### Tests ###################################
-const sortedArray = mergeSort([
-  1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324, 12312, 0, 872,
-]);
+const sortedArray = mergeSort([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 0, 872]);
 const tree = new Tree(sortedArray);
-console.log(tree.prettyPrint());
+tree.prettyPrint();
