@@ -99,7 +99,9 @@ class Tree {
 
     // Searches the parent and the node of the passed data
     while (wantedNode === undefined) {
-      if (data < parentNode.data) {
+      if (data === parentNode.data) {
+        wantedNode = parentNode;
+      } else if (data < parentNode.data) {
         // If the data is lesser than the data on the parent...
         if (parentNode.left !== null && parentNode.left.data === data) {
           // If the parent has the left child with the wanted value
@@ -148,7 +150,17 @@ class Tree {
       }
     } else {
       // If the wanted node have two leaves
-      return;
+      // Finds the "next biggest"
+      let currentNode = wantedNode.right;
+      let nextBiggest;
+      while (nextBiggest === undefined) {
+        if (currentNode.left === null) {
+          nextBiggest = currentNode;
+        } else {
+          currentNode = currentNode.left;
+        }
+      }
+      console.log(nextBiggest);
     }
   }
 }
@@ -156,11 +168,11 @@ class Tree {
 // ################################### Tests ###################################
 const sortedArray = mergeSort([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 0, 872]);
 const tree = new Tree(sortedArray);
-tree.prettyPrint();
+//tree.prettyPrint();
 
 //tree.delete(872); // No leafs
-tree.delete(67); // One leaf
-//tree.delete(4); // Two leafs
+//tree.delete(67); // One leaf
+tree.delete(7); // Two leafs
 
-console.log("#################################################");
+//console.log("#################################################");
 tree.prettyPrint();
