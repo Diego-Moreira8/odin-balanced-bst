@@ -93,47 +93,82 @@ class Tree {
     }
   }
 
-  delete(data) {
-    let parentNode = this.root;
-    let wantedNode;
+  findParentNode(data) {
+    // Finds and returns the node parent of a node with the given data
+    /* Returns null if the data have no parents (the root), or if it doesn't 
+    find the data */
 
-    // Searches the parent and the node of the passed data
-    while (wantedNode === undefined) {
-      if (data === parentNode.data) {
-        wantedNode = parentNode;
-      } else if (data < parentNode.data) {
-        // If the data is lesser than the data on the parent...
-        if (parentNode.left !== null && parentNode.left.data === data) {
-          // If the parent has the left child with the wanted value
-          wantedNode = parentNode.left;
-        } else if (
-          parentNode.right !== null &&
-          parentNode.right.data === data
-        ) {
-          // If the parent has the right child with the wanted value
-          wantedNode = parentNode.right;
+    let parent;
+    let currNode = this.root; // Current node
+
+    if (data === this.root.data) {
+      console.log("No parents: the data is currently on the root of the tree.");
+      return null;
+    }
+
+    while (parent === undefined) {
+      if (currNode === null) {
+        console.log("Data not found");
+        return null;
+      } else if (data < currNode.data) {
+        // If the given data is lesser than the data on the parent...
+        if (currNode.left !== null && currNode.left.data === data) {
+          // If the parent has the left child with the given data
+          parent = currNode;
+        } else if (currNode.right !== null && currNode.right.data === data) {
+          // If the parent has the right child with the given data
+          parent = currNode;
         } else {
-          /* If the parent of the wanted node isn't founded, 
+          /* If the parent of the given data isn't founded, 
           goes to the left node */
-          parentNode = parentNode.left;
+          currNode = currNode.left;
         }
       } else {
-        // If the data is greater than the data on the parent...
+        // If the given data is greater than the data on the parent...
         /* Does the same as the condition above but in the end, goes to the
-        right node if doesn't find the parent with the wanted node */
-        if (parentNode.left !== null && parentNode.left.data === data) {
-          wantedNode = parentNode.left;
-        } else if (
-          parentNode.right !== null &&
-          parentNode.right.data === data
-        ) {
-          wantedNode = parentNode.right;
+        right node if doesn't find the parent with the given data */
+        if (currNode.left !== null && currNode.left.data === data) {
+          parent = currNode;
+        } else if (currNode.right !== null && currNode.right.data === data) {
+          parent = currNode;
         } else {
-          parentNode = parentNode.right;
+          currNode = currNode.right;
         }
       }
     }
 
+    return parent;
+  }
+
+  findNode(data) {
+    // Finds and return the node with the given data
+    if (this.root.data === data) {
+      return this.root;
+    } else {
+      // Searches for the parent of the given data
+      const parent = this.findParentNode(data);
+
+      // Search the nodes on the parent for the given data
+      let wantedNode;
+      if (data < parent.data) wantedNode = parent.left;
+      else wantedNode = parent.right;
+
+      return wantedNode;
+    }
+  }
+
+  delete(data) {
+    // Finds the parent of the node to be deleted
+    let parentNode = this.findParentNode(data);
+
+    /* Finds the node to be deleted and saves it in wantedNode.
+    Decided to not call findNode, because it will call findParentNode() again */
+    let wantedNode;
+    if (data === parentNode.data) wantedNode = parentNode;
+    else if (data < parentNode.data) wantedNode = parentNode.left;
+    else wantedNode = parentNode.right;
+
+    // Verify how much children the wantedNode has
     if (wantedNode.left === null && wantedNode.right === null) {
       // If the wanted node have no leaves
       if (parentNode.left !== null && parentNode.left.data === data) {
@@ -160,7 +195,11 @@ class Tree {
           currentNode = currentNode.left;
         }
       }
-      console.log(nextBiggest);
+      // The node to be deleted receives the data from the next biggest
+      wantedNode.data = nextBiggest.data;
+
+      // Recursively calls delete
+      // this.delete(nextBiggest.data, wantedNode.right);
     }
   }
 }
@@ -168,11 +207,11 @@ class Tree {
 // ################################### Tests ###################################
 const sortedArray = mergeSort([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 0, 872]);
 const tree = new Tree(sortedArray);
-//tree.prettyPrint();
+tree.prettyPrint();
 
-//tree.delete(872); // No leafs
-//tree.delete(67); // One leaf
-tree.delete(7); // Two leafs
+// tree.delete(872); // No leafs
+// tree.delete(67); // One leaf
+// tree.delete(23); // Two leafs
 
-//console.log("#################################################");
+console.log("#################################################");
 tree.prettyPrint();
