@@ -148,12 +148,11 @@ class Tree {
       // Searches for the parent of the given data
       const parent = this.findParentNode(data);
 
-      // Search the nodes on the parent for the given data
-      let wantedNode;
-      if (data < parent.data) wantedNode = parent.left;
-      else wantedNode = parent.right;
+      // Error (the message is coming from findParentNode method)
+      if (parent === null) return null;
 
-      return wantedNode;
+      // Search the nodes on the parent for the given data
+      return data < parent.data ? parent.left : parent.right;
     }
   }
 
@@ -226,8 +225,4 @@ class Tree {
 // ################################### Tests ###################################
 const sortedArray = mergeSort([10, 9, 8, 7, 6, 5, 4, 3, 2, 1]);
 const tree = new Tree(sortedArray);
-tree.prettyPrint();
-
-tree.delete(0);
-console.log("################################################################");
 tree.prettyPrint();
