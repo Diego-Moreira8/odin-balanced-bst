@@ -158,15 +158,24 @@ class Tree {
   }
 
   delete(data) {
-    // Finds the parent of the node to be deleted
-    let parentNode = this.findParentNode(data);
-
-    /* Finds the node to be deleted and saves it in wantedNode.
-    Decided to not call findNode, because it will call findParentNode() again */
+    // Searches the passed data and delete it
+    let parentNode;
     let wantedNode;
-    if (data === parentNode.data) wantedNode = parentNode;
-    else if (data < parentNode.data) wantedNode = parentNode.left;
-    else wantedNode = parentNode.right;
+
+    // Finds the parent of the node to be deleted
+    if (data === this.root.data) {
+      wantedNode = this.root;
+    } else {
+      parentNode = this.findParentNode(data);
+
+      // Error (the message is coming from findParentNode method)
+      if (parentNode === null) return;
+
+      /* Finds the node to be deleted and saves it in wantedNode. Decided to not
+      call findNode, because it will call the findParentNode method again */
+      if (data < parentNode.data) wantedNode = parentNode.left;
+      else wantedNode = parentNode.right;
+    }
 
     // Verify how much children the wantedNode has
     if (wantedNode.left === null && wantedNode.right === null) {
@@ -177,11 +186,22 @@ class Tree {
         parentNode.right = null;
       }
     } else if (wantedNode.left === null || wantedNode.right === null) {
-      // If the wanted node have one leaf
-      if (wantedNode.left !== null) {
-        parentNode.left = wantedNode.left;
+      // If the wanted node have one leaf, verify where that one leaf will go to
+
+      if (data < parentNode.data) {
+        // If the wanted node it's on the left side of its parent
+        if (wantedNode.left !== null) {
+          parentNode.left = wantedNode.left;
+        } else {
+          parentNode.left = wantedNode.right;
+        }
       } else {
-        parentNode.right = wantedNode.right;
+        // If the wanted node it's on the right side of its parent
+        if (wantedNode.left !== null) {
+          parentNode.right = wantedNode.left;
+        } else {
+          parentNode.right = wantedNode.right;
+        }
       }
     } else {
       // If the wanted node have two leaves
@@ -190,28 +210,24 @@ class Tree {
       let nextBiggest;
       while (nextBiggest === undefined) {
         if (currentNode.left === null) {
-          nextBiggest = currentNode;
+          nextBiggest = currentNode.data;
         } else {
           currentNode = currentNode.left;
         }
       }
-      // The node to be deleted receives the data from the next biggest
-      wantedNode.data = nextBiggest.data;
-
       // Recursively calls delete
-      // this.delete(nextBiggest.data, wantedNode.right);
+      this.delete(nextBiggest);
+      // The node to be deleted receives the data from the next biggest
+      wantedNode.data = nextBiggest;
     }
   }
 }
 
 // ################################### Tests ###################################
-const sortedArray = mergeSort([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 0, 872]);
+const sortedArray = mergeSort([10, 9, 8, 7, 6, 5, 4, 3, 2, 1]);
 const tree = new Tree(sortedArray);
 tree.prettyPrint();
 
-// tree.delete(872); // No leafs
-// tree.delete(67); // One leaf
-// tree.delete(23); // Two leafs
-
-console.log("#################################################");
+tree.delete(0);
+console.log("################################################################");
 tree.prettyPrint();
