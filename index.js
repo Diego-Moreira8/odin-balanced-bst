@@ -220,9 +220,26 @@ class Tree {
       wantedNode.data = nextBiggest;
     }
   }
+
+  levelOrder() {
+    // Return an array with the elements of the tree in a level order
+    let queue = [this.root];
+    let removed;
+    let result = [];
+
+    while (queue.length > 0) {
+      removed = queue.shift();
+      if (removed.left !== null) queue.push(removed.left);
+      if (removed.right !== null) queue.push(removed.right);
+      result.push(removed.data);
+    }
+
+    return result;
+  }
 }
 
 // ################################### Tests ###################################
 const sortedArray = mergeSort([10, 9, 8, 7, 6, 5, 4, 3, 2, 1]);
 const tree = new Tree(sortedArray);
 tree.prettyPrint();
+tree.levelOrder();
