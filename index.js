@@ -237,17 +237,45 @@ class Tree {
     return result;
   }
 
-  preOrder(root = this.root, stack = []) {
-    /* Traverse the tree in pre-order (NODE -> LEFT -> RIGHT), and returns the 
-    array with the ordered data */
-    if (root === null) {
-      return;
-    } else {
-      stack.push(root.data);
-      this.preOrder(root.left, stack);
-      this.preOrder(root.right, stack);
-      return stack;
-    }
+  traverse() {
+    /* Traverse the tree in pre/in/post order, and returns an array with the 
+    ordered data. How to use: traverse().preorder() */
+    let stack = [];
+
+    const preorder = (root = this.root) => {
+      if (root === null) {
+        return;
+      } else {
+        preorder(root.left);
+        stack.push(root.data);
+        preorder(root.right);
+        return stack;
+      }
+    };
+
+    const inorder = (root = this.root) => {
+      if (root === null) {
+        return;
+      } else {
+        stack.push(root.data);
+        inorder(root.left);
+        inorder(root.right);
+        return stack;
+      }
+    };
+
+    const postorder = (root = this.root) => {
+      if (root === null) {
+        return;
+      } else {
+        postorder(root.left);
+        postorder(root.right);
+        stack.push(root.data);
+        return stack;
+      }
+    };
+
+    return { preorder, inorder, postorder };
   }
 
   inOrder(root = this.root, stack = []) {
@@ -281,6 +309,6 @@ class Tree {
 const sortedArray = mergeSort([10, 9, 8, 7, 6, 5, 4, 3, 2, 1]);
 const tree = new Tree(sortedArray);
 tree.prettyPrint();
-console.log(tree.preOrder());
-console.log(tree.inOrder());
-console.log(tree.postOrder());
+console.log(tree.traverse().preorder());
+console.log(tree.traverse().inorder());
+console.log(tree.traverse().postorder());
