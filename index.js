@@ -237,14 +237,41 @@ class Tree {
     return result;
   }
 
-  preorder(root = this.root, stack = []) {
-    // Traverse the tree in pre-order NODE -> LEFT -> RIGHT
+  preOrder(root = this.root, stack = []) {
+    /* Traverse the tree in pre-order (NODE -> LEFT -> RIGHT), and returns the 
+    array with the ordered data */
     if (root === null) {
       return;
     } else {
       stack.push(root.data);
-      this.preorder(root.left, stack);
-      this.preorder(root.right, stack);
+      this.preOrder(root.left, stack);
+      this.preOrder(root.right, stack);
+      return stack;
+    }
+  }
+
+  inOrder(root = this.root, stack = []) {
+    /* Traverse the tree in in-order (LEFT -> NODE -> RIGHT), and returns the 
+    array with the ordered data */
+    if (root === null) {
+      return;
+    } else {
+      this.inOrder(root.left, stack);
+      stack.push(root.data);
+      this.inOrder(root.right, stack);
+      return stack;
+    }
+  }
+
+  postOrder(root = this.root, stack = []) {
+    /* Traverse the tree in post-order (LEFT -> RIGHT -> NODE), and returns the 
+    array with the ordered data */
+    if (root === null) {
+      return;
+    } else {
+      this.postOrder(root.left, stack);
+      this.postOrder(root.right, stack);
+      stack.push(root.data);
       return stack;
     }
   }
@@ -254,4 +281,6 @@ class Tree {
 const sortedArray = mergeSort([10, 9, 8, 7, 6, 5, 4, 3, 2, 1]);
 const tree = new Tree(sortedArray);
 tree.prettyPrint();
-console.log(tree.preorder());
+console.log(tree.preOrder());
+console.log(tree.inOrder());
+console.log(tree.postOrder());
