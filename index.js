@@ -303,10 +303,13 @@ class Tree {
 
     return height;
   }
+
+  rebalance() {
+    this.root = this.buildTree(this.traverse().preorder());
+  }
 }
 
 // ################################### Tests ###################################
 const sortedArray = mergeSort([10, 9, 8, 7, 6, 5, 4, 3, 2, 1]);
 const tree = new Tree(sortedArray);
 tree.prettyPrint();
-console.log(tree.height(80));
