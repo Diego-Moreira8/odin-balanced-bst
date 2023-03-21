@@ -277,32 +277,6 @@ class Tree {
 
     return { preorder, inorder, postorder };
   }
-
-  inOrder(root = this.root, stack = []) {
-    /* Traverse the tree in in-order (LEFT -> NODE -> RIGHT), and returns the 
-    array with the ordered data */
-    if (root === null) {
-      return;
-    } else {
-      this.inOrder(root.left, stack);
-      stack.push(root.data);
-      this.inOrder(root.right, stack);
-      return stack;
-    }
-  }
-
-  postOrder(root = this.root, stack = []) {
-    /* Traverse the tree in post-order (LEFT -> RIGHT -> NODE), and returns the 
-    array with the ordered data */
-    if (root === null) {
-      return;
-    } else {
-      this.postOrder(root.left, stack);
-      this.postOrder(root.right, stack);
-      stack.push(root.data);
-      return stack;
-    }
-  }
 }
 
 // ################################### Tests ###################################
