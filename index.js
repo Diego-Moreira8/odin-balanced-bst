@@ -277,12 +277,36 @@ class Tree {
 
     return { preorder, inorder, postorder };
   }
+
+  height(data) {
+    /* Accepts a node and returns its height. Height is defined as the number of
+    edges in longest path from a given node to a leaf node. */
+    if (data === this.root.data) return 1;
+
+    let currNode = this.root; // Current node
+    let height = 1;
+
+    while (currNode.data !== data) {
+      if (data < currNode.data) {
+        currNode = currNode.left;
+        height++;
+      } else {
+        currNode = currNode.right;
+        height++;
+      }
+
+      if (currNode === null) {
+        console.log("Data not found");
+        return null;
+      }
+    }
+
+    return height;
+  }
 }
 
 // ################################### Tests ###################################
 const sortedArray = mergeSort([10, 9, 8, 7, 6, 5, 4, 3, 2, 1]);
 const tree = new Tree(sortedArray);
 tree.prettyPrint();
-console.log(tree.traverse().preorder());
-console.log(tree.traverse().inorder());
-console.log(tree.traverse().postorder());
+console.log(tree.height(80));
