@@ -237,13 +237,15 @@ class Tree {
     return result;
   }
 
-  preorder(root = this.root) {
+  preorder(root = this.root, stack = []) {
+    // Traverse the tree in pre-order NODE -> LEFT -> RIGHT
     if (root === null) {
       return;
     } else {
-      console.log(root.data);
-      this.preorder(root.left);
-      this.preorder(root.right);
+      stack.push(root.data);
+      this.preorder(root.left, stack);
+      this.preorder(root.right, stack);
+      return stack;
     }
   }
 }
