@@ -236,10 +236,20 @@ class Tree {
 
     return result;
   }
+
+  preorder(root = this.root) {
+    if (root === null) {
+      return;
+    } else {
+      console.log(root.data);
+      this.preorder(root.left);
+      this.preorder(root.right);
+    }
+  }
 }
 
 // ################################### Tests ###################################
 const sortedArray = mergeSort([10, 9, 8, 7, 6, 5, 4, 3, 2, 1]);
 const tree = new Tree(sortedArray);
 tree.prettyPrint();
-tree.levelOrder();
+console.log(tree.preorder());
