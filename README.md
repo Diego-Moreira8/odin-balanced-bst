@@ -21,32 +21,40 @@ new Tree([6, 1, 9]);
 
 ```javascript
 buildTree(array);
-//
+/* Takes an array and turns it into a balanced binary tree full of Node objects
+appropriately placed and returns the level-0 root node */
 
-prettyPrint((node = this.root), (prefix = ""), (isLeft = true));
-//
+prettyPrint();
+/* Prints the tree in a structured format.
+Made by the awesome people from TheOdinProject.com */
 
 insert(data);
-//
+// Searches a empty leaf to insert the data
 
 findParentNode(data);
-//
+/* Finds and returns the node parent of a node with the given data. 
+Returns null if the data have no parents (the root), or if it doesn't 
+find the data */
 
 findNode(data);
-//
+// Finds and return the node with the given data
 
-delete data;
-//
+delete(data);
+// Searches the passed data and delete it
 
 levelOrder();
-//
+// Return an array with the elements of the tree in a level order
 
-traverse();
-//
+traverse().preorder();
+traverse().inorder();
+traverse().postorder();
+/* Traverse the tree in pre/in/post order, and returns an array with the 
+ordered data */
 
 height(data);
-//
+/* Accepts a node and returns its height. Height is defined as the number of 
+edges in longest path from a given node to a leaf node */
 
 rebalance();
-//
+// Updates the root with a balanced tree
 ```
