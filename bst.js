@@ -8,7 +8,7 @@ class Node {
   }
 }
 
-class Tree {
+export default class Tree {
   constructor(_array) {
     this.array = _array;
     this.root = this.buildTree(_array);
@@ -305,11 +305,7 @@ class Tree {
   }
 
   rebalance() {
+    // Updates the root with a balanced tree
     this.root = this.buildTree(this.traverse().preorder());
   }
 }
-
-// ################################### Tests ###################################
-const sortedArray = mergeSort([10, 9, 8, 7, 6, 5, 4, 3, 2, 1]);
-const tree = new Tree(sortedArray);
-tree.prettyPrint();
