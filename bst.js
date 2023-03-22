@@ -11,7 +11,7 @@ class Node {
 export default class Tree {
   constructor(_array) {
     this.array = _array;
-    this.root = this.buildTree(_array);
+    this.root = this.buildTree(mergeSort(_array));
   }
 
   buildTree(array) {
