@@ -1,4 +1,4 @@
-# Linked List
+# Binary Search Tree
 
 This is a project for implementing a Binary Search Tree in JavaScript. A BST is a data structure where each element is a node that contains a reference to two other nodes. The project was proposed by [The Odin Project](https://www.theodinproject.com), as an exercise to solidify the learning of data structures.
 
